@@ -11,7 +11,10 @@ def variable(name, value):
     vars[name] = value
     
 def sage(string):
-    print(string)
+    if CheckVar(string[5:].strip('\n')) == True:
+        print(vars[string[5:].strip('\n')])
+    else:
+        print(string[5:])
 
 def CheckVar(string):
     if string in vars:
@@ -33,7 +36,6 @@ def DoOperation(string):
                 if CheckVar(item) == True:
                     for i, n in enumerate(operation_list):
                         if n == item:
-                            print(operation_list)
                             operation_list = [w.replace(item, str(vars[item])) for w in operation_list]
         operation = calc.parse(" ".join(operation_list))
         return operation.evaluate({})
@@ -54,8 +56,5 @@ for line in script:
         variable(name, value)
     else:
         if line.startswith("sage"):
-            if CheckVar(line[5]):
-                sage(vars[line[5]])
-            else:
-                sage(line[5:])
-
+            sage(line)
+            
