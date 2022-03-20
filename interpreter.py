@@ -6,9 +6,6 @@ calc = Parser()
 vars = {
         
     }
-
-def variable(name, value):
-    vars[name] = value
     
 def sage(string):
     if CheckVar(string[5:].strip('\n')) == True:
@@ -38,9 +35,20 @@ def DoOperation(string):
                         if n == item:
                             operation_list = [w.replace(item, str(vars[item])) for w in operation_list]
         operation = calc.parse(" ".join(operation_list))
-        return operation.evaluate({})
+        operation_str = " ".join(operation_list)
+        try:
+            return operation.evaluate({})
+        except:
+            return operation_str
     else:
         return False
+
+def variable(name, value):
+    if CheckVar(value) == True:
+        value = vars[value]
+    if CheckOperation(value) == True:
+            value = DoOperation(value)
+    vars[name] = value
 
 
 script = open("fahrt1.lego", "r")
@@ -51,8 +59,6 @@ for line in script:
         name = args[1]
         args = args[3:]
         value = " ".join(args)
-        if CheckOperation(value) == True:
-            value = DoOperation(value)
         variable(name, value)
     else:
         if line.startswith("sage"):
