@@ -1,3 +1,5 @@
-setze Xabc auf 18 + 3
-setze aat auf 12 + Xabc + asikgf
-sage aat
+setze a auf 4 + 4
+falls a = 5 + 2
+sage 1
+ende
+sage 2

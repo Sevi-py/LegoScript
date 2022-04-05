@@ -6,6 +6,8 @@ calc = Parser()
 vars = {
         
     }
+
+skip = False
     
 def sage(string):
     if CheckVar(string[5:].strip('\n')) == True:
@@ -28,7 +30,7 @@ def DoOperation(string):
         operation_list = string.split()
         for item in operation_list:
             if item.startswith("+") == True or item.startswith("-") == True or item.startswith("*") == True or item.startswith("/") == True:
-                opcount = 1
+                pass
             else:
                 if CheckVar(item) == True:
                     for i, n in enumerate(operation_list):
@@ -50,17 +52,67 @@ def variable(name, value):
             value = DoOperation(value)
     vars[name] = value
 
+def falls(args):
+    args2 = []
+    remove = False
+    args.remove("falls")
+    for i in args:
+        if CheckVar(i):
+            for i2, n in enumerate(args):
+                if CheckVar(n):
+                    args[i2] = str(vars[n])
+        print(args)
+    if "=" in args:
+        #left of "="
+        for i in args:
+            if i == "=":
+                break
+            args2.append(i)
+        args2str = "".join(args2)
+        if CheckOperation(args2str):
+            for i in args:
+                if i == "=":
+                    break
+                args.pop(0)
+            args.insert(0, DoOperation(args2str))
+        #right of "="
+        args2 = []
+        add = False
+        for i in args:
+            if add == True:
+                args2.append(i)
+            if i == "=":
+                add = True
+        args2str = "".join(args2)
+        if CheckOperation(args2str):
+            args = args[:args.index('=')+1]
+            args.append(DoOperation(args2str))
+        if str(args[0]) == str(args[2]):
+            return  True
+        else:
+            return False
 
 script = open("fahrt1.lego", "r")
 
 for line in script:
-    if line.startswith("setze"):
-        args = line.split()
-        name = args[1]
-        args = args[3:]
-        value = " ".join(args)
-        variable(name, value)
-    else:
+    if skip == True:
+        if line.startswith("end"):
+            skip = False
+        else:
+            pass
+    else:        
+        if line.startswith("setze"):
+            args = line.split()
+            name = args[1]
+            args = args[3:]
+            value = " ".join(args)
+            variable(name, value)
+        if line.startswith("falls"):
+            args = line.split()
+            if falls(args) == False:
+                skip = True
         if line.startswith("sage"):
             sage(line)
-            
+
+
+script.close()
