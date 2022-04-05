@@ -7,8 +7,12 @@ vars = {
         
     }
 
-skip = False
-    
+indents = {
+
+}
+
+liinecount = 0
+
 def sage(string):
     if CheckVar(string[5:].strip('\n')) == True:
         print(vars[string[5:].strip('\n')])
@@ -92,28 +96,34 @@ def falls(args):
         else:
             return False
 
-script = open("fahrt1.lego", "r")
-
-for line in script:
-    line = line.strip('\t')
-    if skip == True:
-        if line.startswith("end"):
-            skip = False
+def interpreter(code):
+    skip = False
+    for line in code:
+        linecount = linecount + 1 
+        if skip == True:
+            if "end" in line:
+                skip = False
+            else:
+                pass
         else:
-            pass
-    else:        
-        if line.startswith("setze"):
-            args = line.split()
-            name = args[1]
-            args = args[3:]
-            value = " ".join(args)
-            variable(name, value)
-        if line.startswith("falls"):
-            args = line.split()
-            if falls(args) == False:
-                skip = True
-        if line.startswith("sage"):
-            sage(line)
+            if line.startswith("end"):
+                return        
+            if line.startswith("setze"):
+                args = line.split()
+                name = args[1]
+                args = args[3:]
+                value = " ".join(args)
+                variable(name, value)
+            if line.startswith("falls"):
+                indents[linecount] = len(line) - len(line.lstrip("    "))
+                args = line.split()
+                if falls(args) == False:
+                    skip = True
+            if line.startswith("sage"):
+                sage(line)
+        lines.pop(0)
 
-
-script.close()
+with open("fahrt1.lego", "r") as script:
+    lines = script.readlines()
+    interpreter(script)
+    
