@@ -27,12 +27,14 @@
 
  #### Führt eine Kette von Befehlen aus, wenn gewisse Vorrausetzungen erfüllt sind. Diese Befehlskette kommt in die Zeilen nach dem "falls" befehl und wird mit "ende" beendet.
  #### Beispiele
-```setze x auf 2
+```
+setze x auf 2
 falls x = 2
 sage x entspricht 2
 ende
 ```
-```setze x auf 5
+```
+setze x auf 5
 falls x = 2 + 3
 sage x entspricht 2 + 3
 ende
