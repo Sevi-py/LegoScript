@@ -1,6 +1,6 @@
 # LegoScript
 
-#### Eine einfache Programmiersprache für EV3
+ #### Eine einfache Programmiersprache für EV3
 
 ## Befehle
 
