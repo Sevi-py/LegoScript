@@ -30,9 +30,9 @@
  ```setze x auf 2
 falls x = 2
 sage x entspricht 2
-ende```
+ende´´´
  ```setze x auf 5
 falls x = 2 + 3
 sage x entspricht 2 + 3
-ende```
+ende´´´
  
