@@ -95,6 +95,7 @@ def falls(args):
 script = open("fahrt1.lego", "r")
 
 for line in script:
+    line = line.strip('\t')
     if skip == True:
         if line.startswith("end"):
             skip = False
