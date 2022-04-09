@@ -7,11 +7,21 @@ vars = {
         
     }
 
-indents = {
+tabs = {
 
 }
 
 liinecount = 0
+
+
+def CountTabs(string):
+	TabCount = 0 #TabCount
+	for char in string:
+		if char == "	":
+			TabCount = TabCount + 1
+		else:
+			return TabCount
+            
 
 def sage(string):
     if CheckVar(string[5:].strip('\n')) == True:
@@ -115,7 +125,6 @@ def interpreter(code):
                 value = " ".join(args)
                 variable(name, value)
             if line.startswith("falls"):
-                indents[linecount] = len(line) - len(line.lstrip("    "))
                 args = line.split()
                 if falls(args) == False:
                     skip = True
@@ -125,5 +134,7 @@ def interpreter(code):
 
 with open("fahrt1.lego", "r") as script:
     lines = script.readlines()
-    interpreter(script)
+    for line in lines:
+        tabs[line] = [CountTabs(line)]
+    interpreter(lines)
     
