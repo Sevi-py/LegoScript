@@ -106,35 +106,47 @@ def falls(args):
         else:
             return False
 
-def interpreter(code):
+def LineInterpreter(line):
+    if line.startswith("end"):
+            return        
+    if line.startswith("setze"):
+        args = line.split()
+        name = args[1]
+        args = args[3:]
+        value = " ".join(args)
+        variable(name, value)
+    if line.startswith("falls"):
+        args = line.split()
+        if falls(args) == False:
+            skip = True
+            return
+        else:
+            return True
+    if line.startswith("sage"):
+        sage(line)
+
+def interpreter(code, interpreter_tabs=0):
     skip = False
     for line in code:
-        linecount = linecount + 1 
+        del tabs[next(iter(tabs))]
+        linecount = linecount + 1
         if skip == True:
-            if "end" in line:
-                skip = False
+            if tabs[line] <= interpreter_tabs:
+                skip == False
+                if LineInterpreter(line) == True:
+                    if tabs[line] == interpreter_tabs
+                        LineInterpreter(line)
+                    else:
+                        interpreter(tabs, interpreter_tabs=tabs[line])
             else:
                 pass
         else:
-            if line.startswith("end"):
-                return        
-            if line.startswith("setze"):
-                args = line.split()
-                name = args[1]
-                args = args[3:]
-                value = " ".join(args)
-                variable(name, value)
-            if line.startswith("falls"):
-                args = line.split()
-                if falls(args) == False:
-                    skip = True
-            if line.startswith("sage"):
-                sage(line)
-        lines.pop(0)
+            LineInterpreter(line)
+            
 
 with open("fahrt1.lego", "r") as script:
     lines = script.readlines()
     for line in lines:
-        tabs[line] = [CountTabs(line)]
-    interpreter(lines)
+        tabs[line.strip("	")] = [CountTabs(line)]
+    interpreter(tabs)
     
