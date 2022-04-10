@@ -1,9 +1,6 @@
-tabs = {
-	"test1": "moyn1"
-	,"test2": "moyn"
-	,"test1": "moyn2"
-	,"test4": "moyn"
-}
-
-for line in tabs:
-	print(tabs["test1"])
+elements = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+for i in elements:
+	print(i)
+	print(elements)
+	elements.pop(0)	
+	

@@ -1,5 +1,4 @@
 import linecache
-import time
 from py_expression_eval import Parser
 calc = Parser()
 
@@ -13,6 +12,11 @@ tabs = {
 
 liinecount = 0
 
+def lookfornextline(array, line):
+    for i in array:
+        if i == line:
+            return i
+
 
 def CountTabs(string):
 	TabCount = 0 #TabCount
@@ -21,9 +25,10 @@ def CountTabs(string):
 			TabCount = TabCount + 1
 		else:
 			return TabCount
-            
+    
 
-def sage(string):
+def sage(line):
+    args = string.split("")
     if CheckVar(string[5:].strip('\n')) == True:
         print(vars[string[5:].strip('\n')])
     else:
@@ -118,8 +123,7 @@ def LineInterpreter(line):
     if line.startswith("falls"):
         args = line.split()
         if falls(args) == False:
-            skip = True
-            return
+            return "skip"
         else:
             return True
     if line.startswith("sage"):
@@ -131,13 +135,13 @@ def interpreter(code, interpreter_tabs=0):
         del tabs[next(iter(tabs))]
         linecount = linecount + 1
         if skip == True:
-            if tabs[line] <= interpreter_tabs:
+            if lookfornextline(tabs, line) <= interpreter_tabs:
                 skip == False
                 if LineInterpreter(line) == True:
-                    if tabs[line] == interpreter_tabs
+                    if lookfornextline(tabs, line) == interpreter_tabs:
                         LineInterpreter(line)
                     else:
-                        interpreter(tabs, interpreter_tabs=tabs[line])
+                        return
             else:
                 pass
         else:
